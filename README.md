@@ -1,31 +1,73 @@
-# Astro Starter Kit: Minimal
+## LEOSTRANGMAN.COM
+
+- Personal Website for Leo Strangman, with Experience, Projects, Personal Info, and Contact
+- https://leostrangman.com
+
+## Getting started
+
+Make sure you have the following installed:
+
+- [Node] — at least 20.14, the latest LTS is recommended.
+- [NPM] — at least 8.0, the latest LTS is recommended.
+
+> 💡 You can use [NVM] to install and use different versions of Node via the command-line.
 
 ```sh
-npm create astro@latest -- --template minimal
+# Clone the repository.
+git clone https://github.com/lcstrangman/leostrangman-website.git my-new-project
+
+# Enter the newly-cloned directory.
+cd my-new-project
 ```
 
-> 🧑‍🚀 **Seasoned astronaut?** Delete this file. Have fun!
+## Installation
 
-## 🚀 Project Structure
+```sh
+# Switch to recommended Node version from .nvmrc
+nvm use
 
-Inside of your Astro project, you'll see the following folders and files:
+# Install dependencies from package.json
+npm install
+```
+
+## Project Structure
+
+Inside of your project, you'll see the following folders and files:
 
 ```text
 /
 ├── public/
+│   └── favicon.svg
 ├── src/
-│   └── pages/
-│       └── index.astro
+│   ├── components/
+│   │   └── Card/
+│   │       ├── Card.astro
+│   │       └── Card.scss
+│   ├── layouts/
+│   │   └── Layout.astro
+│   ├── pages/
+│   │   └── index.astro
+│   ├── styles/
+│   │   └── main.scss
+│   └── scripts/
+│       ├── components/
+│       ├── utils/
+│       ├── app.ts
+│       └── config.ts
 └── package.json
 ```
 
-Astro looks for `.astro` or `.md` files in the `src/pages/` directory. Each page is exposed as a route based on its file name.
+## Development
 
-There's nothing special about `src/components/`, but that's where we like to put any Astro/React/Vue/Svelte/Preact components.
+```sh
+# Start development server, watch for changes, and compile assets
+npm run dev
 
-Any static assets, like images, can be placed in the `public/` directory.
+# Compile and minify assets
+npm run build
+```
 
-## 🧞 Commands
+## Commands
 
 All commands are run from the root of the project, from a terminal:
 
@@ -36,8 +78,19 @@ All commands are run from the root of the project, from a terminal:
 | `npm run build`           | Build your production site to `./dist/`          |
 | `npm run preview`         | Preview your build locally, before deploying     |
 | `npm run astro ...`       | Run CLI commands like `astro add`, `astro check` |
-| `npm run astro -- --help` | Get help using the Astro CLI                     |
 
-## 👀 Want to learn more?
+## Documentation
 
-Feel free to check [our documentation](https://docs.astro.build) or jump into our [Discord server](https://astro.build/chat).
+- [Astro]
+- [Locomotive Scroll]
+- [Tailwind CSS]
+- [Swup]
+
+[Astro]: https://docs.astro.build/en/getting-started/
+[Tailwind CSS]: https://tailwindcss.com/docs/installation
+[Locomotive Scroll]: https://scroll.locomotive.ca/docs
+[Sass]: https://sass-lang.com/
+[Swup]: https://swup.js.org/getting-started/
+[Node]: https://nodejs.org/
+[NPM]: https://npmjs.com/
+[NVM]: https://github.com/nvm-sh/nvm
