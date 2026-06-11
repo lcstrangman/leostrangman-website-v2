@@ -221,7 +221,7 @@ html body {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 1.5rem;
+    gap: 2rem;
     padding: 2.5rem 3rem;
     box-sizing: border-box;
     font-family: var(--main-font-family);
@@ -237,34 +237,34 @@ html body {
     flex-direction: row;
     align-items: center;
     justify-content: center;
-    gap: 1.25rem;
+    gap: 2rem;
     width: 100%;
 }
  
 .loading-icon {
     flex-shrink: 0;
-    width: 72px;
-    height: 72px;
+    width: 80px;
+    height: 80px;
     color: var(--loading-fg);
 }
  
 .loading-icon svg,
 .loading-icon .c-icon {
-    width: 72px;
-    height: 72px;
+    width: 80px;
+    height: 80px;
     color: var(--loading-fg);
 }
  
 .loading-name-text {
     font-family: var(--main-font-family);
     font-weight: bold;
-    font-size: clamp(1.1rem, 6vw, 3rem);
+    font-size: clamp(1.8rem, 3.5vw, 3rem);
     color: var(--loading-fg);
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    min-width: 14ch;
+    min-width: 0;
     line-height: 1;
+    display: flex;
+    align-items: center;
 }
  
 .loading-note {
@@ -549,23 +549,37 @@ html body {
     }
 
     .loading-content {
-        padding: 2rem 1.25rem;
-        gap: 1rem;
+        padding: 2rem 1.5rem;
+        gap: 1.5rem;
     }
     .loading-top {
-        gap: 0.85rem;
+        gap: 1.5rem;
+        justify-content: center;
+        align-items: center;
+        padding: 0rem;
     }
     .loading-icon,
     .loading-icon svg,
     .loading-icon .c-icon {
-        width: 48px;
-        height: 48px;
+        width: 56px;
+        height: 56px;
+        flex-shrink: 0;
     }
     .loading-name-text {
-        font-size: clamp(1.1rem, 7.5vw, 1.8rem);
+        font-size: clamp(1.4rem, 6vw, 1.8rem);
+        min-width: 0;
+        margin-top: 1.5rem;
+        margin-left: 1rem;
+        white-space: nowrap;
+        line-height: 1;
+        display: flex;
+        align-items: center;
     }
     .loading-note {
-        font-size: clamp(0.6rem, 2.8vw, 0.8rem);
+        font-size: clamp(0.65rem, 2.8vw, 0.85rem);
+        margin-top: 4rem;
+        text-align: left;
+        padding: 0 0.5rem;
     }
 }
 

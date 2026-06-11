@@ -40,6 +40,9 @@ export class Transitions {
     }
 
     private initSwup() {
+        if ('scrollRestoration' in history) {
+            history.scrollRestoration = 'manual';
+        }
         this.swup = new Swup({
             animateHistoryBrowsing: true,
             plugins: [
