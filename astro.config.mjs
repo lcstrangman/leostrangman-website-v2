@@ -9,7 +9,6 @@ const isProd = import.meta.env.PROD;
 export default defineConfig({
   site: 'https://leostrangman.com',
     output: 'static',
-    adapter: cloudflare(),
     vite: {
         plugins: [tailwindcss()],
         esbuild: {
