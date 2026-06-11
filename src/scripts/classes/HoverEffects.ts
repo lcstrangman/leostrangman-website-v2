@@ -34,8 +34,11 @@ export class HoverEffects {
         ].filter(Boolean) as HTMLElement[];
 
         // Add selection change listener
-        document.addEventListener('selectionchange', this.handleSelectionChangeBound);
-        this.selectionListenerActive = true;
+        const isPointerDevice = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+        if (isPointerDevice) {
+            document.addEventListener('selectionchange', this.handleSelectionChangeBound);
+            this.selectionListenerActive = true;
+        }
 
         // Combined media query: hover capability AND minimum screen width
         const mediaQuery = window.matchMedia('(hover: hover) and (min-width: 721px)');

@@ -10,8 +10,13 @@ export class Scroll {
     // Lifecycle
     // =============================================================================
     static init() {
-        // Initializes Locomotive Scroll without the nanostores overhead
-        this.locomotiveScroll = new LocomotiveScroll();
+        const isTouchDevice = window.matchMedia('(hover: none) and (pointer: coarse)').matches;
+        this.locomotiveScroll = new LocomotiveScroll({
+            lenisOptions: {
+                smoothWheel: !isTouchDevice,
+                syncTouch: false,
+            }
+        });
     }
 
     static destroy() {

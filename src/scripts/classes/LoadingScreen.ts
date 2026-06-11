@@ -123,6 +123,10 @@ export class LoadingScreen {
 
         const W = window.innerWidth;
         const H = window.innerHeight;
+
+        const mobileFactor = Math.min(1, W / 1440);
+        const sweepSpeed = this.SWEEP_SPEED_PX_S * (0.35 + 0.65 * mobileFactor);
+        const eraseSpeed = this.ERASE_SPEED_PX_S * (0.35 + 0.65 * mobileFactor);
         
         const dpr = window.devicePixelRatio || 1;
         canvas.width  = W * dpr;
@@ -149,12 +153,12 @@ export class LoadingScreen {
         // Give both the write head AND the erase head completely independent, high-variance speeds
         const rowWriteSpeeds = Array.from({ length: rows }, () => {
             const v = (Math.random() * 2 - 1) * this.SPEED_VARIANCE;
-            return this.SWEEP_SPEED_PX_S * (1 + v);
+            return sweepSpeed * (1 + v);
         });
 
         const rowEraseSpeeds = Array.from({ length: rows }, () => {
             const v = (Math.random() * 2 - 1) * this.SPEED_VARIANCE;
-            return this.ERASE_SPEED_PX_S * (1 + v);
+            return eraseSpeed * (1 + v);
         });
 
         const shuffledOrder = Array.from({ length: rows }, (_, i) => i)

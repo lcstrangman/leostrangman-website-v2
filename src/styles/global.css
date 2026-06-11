@@ -29,6 +29,10 @@
     --page-title: 'INDEX';
 }
 
+a, button, [role="button"] {
+    touch-action: manipulation;
+}
+
 @theme {
     --spacing-fluid-xs: clamp(0.5rem, 1vw, 0.625rem);
     --spacing-fluid-sm: clamp(1rem, 2vw, 1.5rem);
@@ -254,9 +258,11 @@ html body {
 .loading-name-text {
     font-family: var(--main-font-family);
     font-weight: bold;
-    font-size: clamp(1.8rem, 3.5vw, 3rem);
+    font-size: clamp(1.1rem, 6vw, 3rem);
     color: var(--loading-fg);
     white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
     min-width: 14ch;
     line-height: 1;
 }
@@ -669,6 +675,8 @@ html body {
     display: flex;
     white-space: nowrap;
     gap: 15rem;
+    will-change: transform;
+    transform: translateZ(0);
 }
 .scroll-track.slow {
     animation-duration: 60s !important;
@@ -683,6 +691,8 @@ html body {
     font-size: 52.7vh;
     line-height: 1;
     user-select: none;
+    -webkit-font-smoothing: antialiased;
+    backface-visibility: hidden;
 }
 .scroll-text:hover {
     text-decoration: underline overline;

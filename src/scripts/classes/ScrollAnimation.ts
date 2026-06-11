@@ -60,11 +60,11 @@ export class ScrollAnimation {
         if (!this.scroller || !this.scrollTrack || !this.scrollTrackContent.length) return;
 
         // Set animation durations based on window width
-        if (window.innerWidth < 910) {
-            this.scrollTrack.style.animation = 'scroll 45s linear infinite';
+        if (window.innerWidth >= 910) {
+            this.scrollTrack.style.animation = 'scroll 20s linear infinite';
         }
-        if (window.innerWidth < 600) {
-            this.scrollTrack.style.animation = 'scroll 55s linear infinite';
+        else if (window.innerWidth >= 600) {
+            this.scrollTrack.style.animation = 'scroll 45s linear infinite';
         }
 
         if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
