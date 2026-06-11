@@ -14,7 +14,7 @@ Make sure you have the following installed:
 
 ```sh
 # Clone the repository.
-git clone https://github.com/lcstrangman/leostrangman-website.git my-new-project
+git clone https://github.com/lcstrangman/leostrangman-website-v2.git my-new-project
 
 # Enter the newly-cloned directory.
 cd my-new-project
@@ -40,20 +40,18 @@ Inside of your project, you'll see the following folders and files:
 │   └── favicon.svg
 ├── src/
 │   ├── components/
-│   │   └── Card/
-│   │       ├── Card.astro
-│   │       └── Card.scss
+│   │   └── Icon/
+│   │       └── Icon.astro
 │   ├── layouts/
 │   │   └── Layout.astro
 │   ├── pages/
 │   │   └── index.astro
 │   ├── styles/
-│   │   └── main.scss
+│   │   └── global.css
 │   └── scripts/
 │       ├── components/
 │       ├── utils/
-│       ├── app.ts
-│       └── config.ts
+│       └── app.ts
 └── package.json
 ```
 
