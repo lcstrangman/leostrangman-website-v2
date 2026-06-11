@@ -1,0 +1,69 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ResumeBox from '../components/ResumeBox/ResumeBox.astro';
+import ScrollingFooter from '../components/ScrollingFooter/ScrollingFooter.astro';
+import PageShell from '../components/PageShell/PageShell.astro';
+
+const sections = [
+    {
+        heading: '/* Hi, I am Leo Strangman [LCS] */',
+        items: [
+            'I am a software engineer and designer who loves to combine innovative technology with unique design',
+            'I have always been fascinated by the intersection of physical hardware and intuitive software that brings it to life',
+            'I enjoy crafting responsive, high-fidelity, and accessible interfaces that provide seamless user experiences',
+            'I also thrive on collaborative software engineering and solving complex challenges from prototyping to production',
+        ],
+    },
+    {
+        heading: '/* I am a recent WPI CS/DS Graduate */',
+        items: [
+            'Originally from Boxford, MA, I recently graduated from Worcester Polytechnic Institute and am located in Boston',
+            "I currently hold a Bachelor's degree in Computer Science with a minor in Data Science from WPI",
+            'My work spans full-stack web development, medical robotics, UI/UX design, data analysis, and AI/ML',
+            'I have learned that the most impactful projects are a mix of good design and better engineering',
+        ],
+    },
+    {
+        heading: '/* My Experience */',
+        items: [
+            'Most recently, I was a lead developer on SCALPEL-IR, a tablet system controlling a robotic-assisted laser surgery platform',
+            'I have also completed a multi-year internship at Massachusetts General Hospital working on space medicine research',
+            'I automated data analysis with ML to assist research into the effects of microgravity on the human body and brain',
+            'I also developed multiple full-stack web applications and designed hardware to be used on the International Space Station',
+        ],
+    },
+    {
+        heading: '/* I Am Open to Work */',
+        items: [
+            'I am actively seeking a full-time software engineering role where I can meaningfully contribute to a team',
+            'I am eager to continue my growth as a developer and see the real-world impacts of my work',
+            'Whether it involves front-end interfaces, robotics, or data pipelines, I am excited to explore the field',
+            'I want to work with people who are as excited about the work they do as I am',
+        ],
+    },
+];
+---
+
+<Layout title="Leo Strangman." theme="about" pageTitle="ABOUT ME">
+    <PageShell>
+        <div class="scroll-container-manual u:mt-fluid-xl u:w-full">
+            <ul class="scroll-track-manual">
+                {sections.map((section) => (
+                    <li class="scroll-text-manual">
+                        <h2 class="scroll-section-title hover-text glitchable">{section.heading}</h2>
+                        <ul class="vertical-list">
+                            {section.items.map((item, i) => (
+                                <li class:list={['vertical-item', 'hover-text', 'glitchable', i === 0 && 'u:mt-xs']}>
+                                    {item}
+                                </li>
+                            ))}
+                        </ul>
+                    </li>
+                ))}
+            </ul>
+        </div>
+
+        <ResumeBox mode="view" />
+        <ScrollingFooter />
+    </PageShell>
+</Layout>

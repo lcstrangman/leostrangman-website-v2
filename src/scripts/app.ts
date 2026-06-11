@@ -1,0 +1,86 @@
+import { Transitions } from '@scripts/classes/Transitions';
+import { Scroll } from '@scripts/classes/Scroll';
+import { Accessibility } from '@scripts/classes/Accessibility';
+import { GlitchEffects } from '@scripts/classes/GlitchEffects';
+import { ImagePixelation } from '@scripts/classes/ImageEffects';
+import { InteractiveSections } from '@scripts/classes/InteractiveBox';
+import { LineCanvas } from '@scripts/classes/LineCanvas';
+import { MouseEffects } from '@scripts/classes/MouseEffects';
+import { ParallaxCanvas } from '@scripts/classes/ParallaxCanvas';
+import { ParallaxEffects } from '@scripts/classes/ParallaxEffects';
+import { HoverEffects } from '@scripts/classes/HoverEffects';
+import { ScrollAnimation } from '@scripts/classes/ScrollAnimation';
+
+let lineCanvasInstance: LineCanvas | null = null;
+
+function initFeatures(): void {
+    Accessibility.initWithStateRestore();
+    GlitchEffects.init();
+    ImagePixelation.init();
+    InteractiveSections.init();
+    MouseEffects.init();
+    ParallaxCanvas.init();
+    ParallaxEffects.init();
+    HoverEffects.init();
+    ScrollAnimation.init();
+
+    const wrapper = document.getElementById('lines-wrapper');
+    if (wrapper) {
+        lineCanvasInstance = LineCanvas.init(wrapper);
+    }
+}
+
+function cleanupFeatures(): void {
+    Accessibility.cleanup();
+    GlitchEffects.cleanup();
+    ImagePixelation.cleanup();
+    InteractiveSections.cleanup();
+    MouseEffects.cleanup();
+    ParallaxCanvas.cleanup();
+    ParallaxEffects.cleanup();
+    HoverEffects.cleanup();
+    ScrollAnimation.cleanup();
+
+    if (lineCanvasInstance) {
+        LineCanvas.cleanup(lineCanvasInstance);
+        lineCanvasInstance = null;
+    }
+}
+
+function updateColorsFromPage(): void {
+    const swupContainer = document.getElementById('swup');
+    if (!swupContainer) return;
+
+    const { dataset: style } = swupContainer;
+
+    if (style.primaryColor) document.body.style.setProperty('--primary-color', style.primaryColor);
+    if (style.primaryContrastColor) document.body.style.setProperty('--primary-contrast-color', style.primaryContrastColor);
+    if (style.secondaryColor) document.body.style.setProperty('--secondary-color', style.secondaryColor);
+    if (style.secondaryContrastColor) document.body.style.setProperty('--secondary-contrast-color', style.secondaryContrastColor);
+    if (style.tertiaryColor) document.body.style.setProperty('--tertiary-color', style.tertiaryColor);
+    if (style.tertiaryContrastColor) document.body.style.setProperty('--tertiary-contrast-color', style.tertiaryContrastColor);
+    if (style.quaternaryColor) document.body.style.setProperty('--quaternary-color', style.quaternaryColor);
+    if (style.quaternaryContrastColor) document.body.style.setProperty('--quaternary-contrast-color', style.quaternaryContrastColor);
+    if (style.pageTitle) document.body.style.setProperty('--page-title', style.pageTitle);
+}
+
+const transitions = new Transitions({
+    onInit: () => {
+        initFeatures();
+        document.documentElement.classList.add(Transitions.READY_CLASS);
+    },
+    onDestroy: () => {
+        cleanupFeatures();
+    },
+    onAfterReplace: () => {
+        updateColorsFromPage();
+        initFeatures();
+        requestAnimationFrame(() => {
+            Accessibility.applyScrollSpeedToDOM();
+        });
+    },
+});
+
+transitions.init();
+
+Scroll.init();

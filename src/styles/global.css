@@ -1,0 +1,1107 @@
+@import "tailwindcss" prefix(u);
+@import "locomotive-scroll/dist/locomotive-scroll.css";
+
+:root {
+    /* Color hierarchy is changed based on each individual page */
+    /* Main background color */
+    --primary-color: #e4c787;
+    /* Contrast color for primary */
+    --primary-contrast-color: #192727;
+    /* Background color for elements on top of background */
+    --secondary-color: #9ab28a;
+    /* Contrast color for secondary */
+    --secondary-contrast-color: #593636;
+    /* Tertiary color option */
+    --tertiary-color: #bbb387;
+    /* Contrast for tertiary */
+    --tertiary-contrast-color: #313804;
+    /*Quaternary color option */
+    --quaternary-color: #c4a8b8;
+    /* Contrast for quaternary */
+    --quaternary-contrast-color: #3a2d2d;
+
+    --loading-bg: #192727;
+    --loading-fg: #e4c787;
+    --loading-accent: #9ab28a;
+
+    --main-font-family: 'Supply';
+    --secondary-font-family: 'Nikkei';
+    --page-title: 'INDEX';
+}
+
+@theme {
+    --spacing-fluid-xs: clamp(0.5rem, 1vw, 0.625rem);
+    --spacing-fluid-sm: clamp(1rem, 2vw, 1.5rem);
+    --spacing-fluid-md: clamp(1.5rem, 3vw, 2rem);
+    --spacing-fluid-lg: clamp(2rem, 4vw, 2.5rem);
+    --spacing-fluid-xl: clamp(2.5rem, 5vw, 3.5rem);
+    --spacing-fluid-2xl: clamp(3.5rem, 7vw, 5rem);
+    --gap-gutter: 20px;
+    --gap-gutter-mobile: 10px;
+    --spacing-gutter: 20px;
+    --spacing-gutter-mobile: 10px;
+    --gap-gutter: 20px;
+    --gap-gutter-mobile: 10px;
+}
+
+@utility container {
+    margin-inline: auto;
+    padding-inline: 10px;
+
+    @media (width >= 700px) {
+        padding-inline: 20px;
+    }
+}
+
+
+/* Custom font using free trial license from Pangram Pangram Foundry: https://pangrampangram.com/pages/faq*/
+@font-face {
+    font-family: 'Supply';
+    src: url('/fonts/Supply/PPSupplySans-Regular.woff2') format('woff2');
+    font-weight: 400;
+    font-style: normal;
+}
+
+/* Custom font using free trial license from Pangram Pangram Foundry: https://pangrampangram.com/pages/faq*/
+@font-face {
+    font-family: 'Neue-Mono';
+    src: url('/fonts/NeueMono/PPNeueMontrealMono-Book.otf') format('opentype');
+    font-weight: 200;
+    font-style: normal;
+}
+
+/* Custom font using free trial license from Pangram Pangram Foundry: https://pangrampangram.com/pages/faq*/
+@font-face {
+    font-family: 'Nikkei';
+    src: url('/fonts/Nikkei/PPNikkeiLine-Light.otf') format('opentype');
+    font-weight: 200;
+    font-style: normal;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    clip-path: inset(50%);
+    white-space: nowrap;
+    border: 0;
+}
+
+.site-container {
+    max-width: 1920px;
+    margin: 0 auto;
+    background-color: var(--primary-contrast-color);
+    min-height: 100vh;
+}
+
+root {
+    font-size: 16px;
+}
+
+/* Hide horizontal scroll bar, set background color */
+html body {
+    overflow-x: hidden;
+    background-color: var(--primary-color, #e4c787);
+}
+
+/* TOGGLED STYLES */
+.display {
+    display: grid !important;
+}
+
+.display-none {
+    display: none !important;
+}
+
+.hidden {
+    visibility: hidden !important;
+}
+
+/* Styles for mouse circle following the cursor */
+.mouse-circle {
+    position: fixed;
+    z-index: 999;
+    width: 25px;
+    height: 25px;
+    border: 2.5px solid #f5e0b4;
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    transition:
+        transform 0.05s,
+        background-color 0.1s,
+        width 0.1s ease,
+        height 0.1s ease,
+        opacity 0.3s ease;
+    background-color: transparent;
+    mix-blend-mode: difference;
+    pointer-events: none;
+    opacity: 0;
+}
+
+.mouse-circle.hovered {
+    width: 50px;
+    height: 50px;
+    border: #f5e0b4;
+    background-color: #f5e0b4;
+    mix-blend-mode: difference;
+}
+
+/* -------------------------------------------------------------------------
+   Initial screen — shown briefly on every page load
+   ------------------------------------------------------------------------- */
+#initial-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--loading-bg);
+    opacity: 1;
+    pointer-events: auto;
+    transition: opacity 0.3s ease;
+}
+ 
+#initial-screen .icon-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100px;
+    height: 100px;
+    color: var(--loading-fg);
+}
+ 
+#initial-screen .icon-wrapper svg,
+#initial-screen .icon-wrapper .c-icon {
+    width: 100px;
+    height: 100px;
+    color: var(--loading-fg);
+}
+
+
+/* -------------------------------------------------------------------------
+   Canvas overlay (replaces the old #pixel-transition div grid)
+   Sized and positioned by JS at wipe time; default is invisible/inert.
+   ------------------------------------------------------------------------- */
+#loading-canvas {
+    position: fixed;
+    inset: 0;
+    z-index: 10002;
+    pointer-events: none;
+    display: block;
+}
+ 
+/* -------------------------------------------------------------------------
+   Full loading screen — first visit only, shown by JS
+   ------------------------------------------------------------------------- */
+#loading-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: none;
+    align-items: center;
+    justify-content: center;
+    pointer-events: none;
+    overflow: hidden;
+    opacity: 0;
+}
+ 
+.loading-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 1.5rem;
+    padding: 2.5rem 3rem;
+    box-sizing: border-box;
+    font-family: var(--main-font-family);
+    color: var(--loading-fg);
+    overflow: hidden;
+    position: relative;
+    z-index: 2;
+}
+ 
+/* Icon + name on one centered row */
+.loading-top {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    gap: 1.25rem;
+    width: 100%;
+}
+ 
+.loading-icon {
+    flex-shrink: 0;
+    width: 72px;
+    height: 72px;
+    color: var(--loading-fg);
+}
+ 
+.loading-icon svg,
+.loading-icon .c-icon {
+    width: 72px;
+    height: 72px;
+    color: var(--loading-fg);
+}
+ 
+.loading-name-text {
+    font-family: var(--main-font-family);
+    font-weight: bold;
+    font-size: clamp(1.8rem, 3.5vw, 3rem);
+    color: var(--loading-fg);
+    white-space: nowrap;
+    min-width: 14ch;
+    line-height: 1;
+}
+ 
+.loading-note {
+    font-family: var(--main-font-family);
+    font-size: clamp(0.7rem, 1.4vw, 0.9rem);
+    color: var(--loading-fg);
+    opacity: 1;
+    margin-top: 2rem;
+    margin-bottom: 0;
+    white-space: nowrap;
+    text-align: center;
+}
+
+
+/* Main hero page styles */
+.hero {
+    position: relative;
+    height: 100vh;
+    background-image: url('../assets/images/default.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    overflow: hidden;
+}
+
+/* Hero page image styles */
+.hero-canvas {
+    position: relative;
+    width: min(100vw, 1920px);
+    height: 100vh;
+    object-fit: cover;
+}
+
+.hero-container {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+}
+.hero-container.removed {
+    display: none;
+}
+
+.name-container {
+    position: relative;
+}
+.name-background {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+    background-color: transparent;
+}
+.name-background.hovered-version {
+    background-color: var(--primary-color);
+}
+.name-text {
+    position: relative;
+    z-index: 2;
+    font-size: 8rem;
+    line-height: 0.92;
+    font-family: var(--main-font-family);
+    color: var(--primary-color);
+    overflow: hidden;
+    mix-blend-mode: exclusion;
+    white-space: nowrap;
+}
+.name-text.hovered-version {
+    color: var(--primary-contrast-color);
+    mix-blend-mode: normal;
+}
+.name-text::selection {
+    background-color: var(--primary-color);
+    color: var(--primary-contrast-color);
+}
+.name-text.hovered-version::selection {
+    background-color: var(--primary-contrast-color);
+    color: var(--primary-color);
+}
+.name-text.no-blend {
+    mix-blend-mode: normal;
+}
+.name-text.no-blend::selection {
+    background-color: var(--primary-contrast-color);
+    color: var(--primary-color);
+}
+
+.bottom-row {
+    display: flex;
+    flex-direction: row;
+    user-select: none;
+}
+
+.icon-container {
+    position: relative;
+    display: flex;
+    width: 90px;
+    height: 120px;
+}
+
+.icon-background,
+.icon-background-invisible {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: transparent;
+}
+.icon-background {
+    z-index: 1;
+}
+.icon-background.hovered-version {
+    background-color: var(--primary-color);
+}
+.icon-background-invisible {
+    z-index: 2;
+    pointer-events: auto;
+}
+
+.svg-position {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    padding-left: 7px;
+    mix-blend-mode: exclusion;
+}
+.svg-position.secondary {
+    mix-blend-mode: normal;
+}
+.svg-position.removed {
+    display: none;
+}
+
+.role-container {
+    width: 155px;
+    height: 120px;
+    position: relative;
+    display: flex;
+    flex-direction: row;
+}
+
+.role-background,
+.role-background-invisible {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: transparent;
+}
+.role-background {
+    z-index: 1;
+}
+.role-background.hovered-version {
+    background-color: var(--primary-color);
+}
+.role-background-invisible {
+    z-index: 2;
+    pointer-events: auto;
+}
+
+.role-text {
+    position: relative;
+    z-index: 3;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--primary-color);
+    mix-blend-mode: exclusion;
+    font-family: var(--main-font-family);
+    font-size: 2rem;
+    line-height: 1;
+    margin-top: 0.4rem;
+}
+.role-text.hovered-version {
+    color: var(--primary-contrast-color);
+    mix-blend-mode: normal;
+}
+
+.access-background {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 58rem;
+    height: 18rem;
+    background-color: var(--primary-color);
+}
+
+.hero-content-accessible {
+    position: absolute;
+    bottom: 20px;
+    left: 20px;
+    width: fit-content;
+    height: fit-content;
+}
+.hero-content-accessible.removed {
+    display: none;
+}
+
+.name-text-accessible {
+    font-size: 8rem;
+    line-height: 0.92;
+    font-family: var(--main-font-family);
+    color: var(--primary-contrast-color);
+    overflow: hidden;
+    white-space: nowrap;
+}
+.name-text-accessible::selection {
+    background-color: var(--primary-contrast-color);
+    color: var(--primary-color);
+}
+
+.role-text-accessible {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: var(--primary-contrast-color);
+    font-family: var(--main-font-family);
+    font-size: 2rem;
+    line-height: 1;
+    margin-top: 0.4rem;
+}
+
+/* Accessibility button styles */
+.access-button {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    height: 1.7rem;
+    z-index: 3;
+    background-color: var(--primary-color);
+    color: var(--primary-contrast-color);
+    font-family: var(--main-font-family);
+    font-size: 1.7rem;
+    line-height: 1.7rem;
+    cursor: pointer;
+}
+.access-button::selection {
+    background-color: var(--primary-contrast-color);
+    color: var(--primary-color);
+}
+
+@media (max-width: 911px) {
+    .name-text,
+    .name-text-accessible {
+        font-size: 6rem;
+    }
+    .access-background {
+        width: 44rem;
+        height: 16rem;
+    }
+    .svg-position {
+        padding-left: 6px;
+    }
+}
+
+@media (max-width: 720px) {
+    .name-text,
+    .name-text-accessible {
+        font-size: 5rem;
+    }
+    .access-background {
+        width: 37rem;
+        height: 15rem;
+    }
+    .access-button {
+        height: 1.3rem;
+        font-size: 1.3rem;
+        line-height: 1.3rem;
+    }
+    .svg-position {
+        padding-left: 5px;
+    }
+}
+
+@media (max-width: 600px) {
+    .name-text,
+    .name-text-accessible {
+        font-size: 4rem;
+    }
+    .svg-position {
+        padding-left: 4px;
+    }
+
+    .loading-content {
+        padding: 2rem 1.25rem;
+        gap: 1rem;
+    }
+    .loading-top {
+        gap: 0.85rem;
+    }
+    .loading-icon,
+    .loading-icon svg,
+    .loading-icon .c-icon {
+        width: 48px;
+        height: 48px;
+    }
+    .loading-name-text {
+        font-size: clamp(1.1rem, 7.5vw, 1.8rem);
+    }
+    .loading-note {
+        font-size: clamp(0.6rem, 2.8vw, 0.8rem);
+    }
+}
+
+@media (max-width: 466px) {
+    .name-text,
+    .name-text-accessible {
+        font-size: 3rem;
+    }
+    .svg-position {
+        padding-left: 3px;
+    }
+}
+
+@media (max-width: 360px) {
+    .name-text,
+    .name-text-accessible {
+        font-size: 2.6rem;
+    }
+    .svg-position {
+        padding-left: 2px;
+    }
+}
+
+/* Page background, set on a page-by-page basis, automatically updated in footer */
+.background-color {
+    background-color: var(--primary-color);
+}
+
+.alt-color {
+    color: var(--alt-color);
+}
+
+/* Styling for the link box wrapper */
+.link-box-wrapper {
+    width: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+    padding-top: 25px;
+    box-sizing: border-box;
+    outline: 25px solid transparent;
+}
+
+/* Styling for the link boxes and text */
+.link-box {
+    background-color: var(--primary-contrast-color);
+    color: var(--primary-color);
+    box-sizing: border-box;
+    font-family: var(--secondary-font-family);
+    font-size: clamp(3rem, 16vw, 18rem);
+    line-height: 1.2;
+    cursor: pointer;
+    height: clamp(15rem, 50vh, 50vh) !important;
+}
+
+.link-box:hover {
+    background-color: var(--secondary-color);
+    color: var(--secondary-contrast-color);
+    outline: 25px solid var(--primary-contrast-color);
+}
+
+.link-box-text::selection {
+    background-color: var(--secondary-contrast-color);
+    color: var(--secondary-color);
+}
+
+/* Different letter spacing to keep link text the same width */
+.tracking-work {
+    letter-spacing: 0.117em;
+}
+
+.tracking-about {
+    letter-spacing: 0.035em;
+}
+
+.tracking-contact {
+    letter-spacing: 0.115em;
+}
+
+/* Filter to render images pixelated */
+.pixel-canvas {
+    width: 100%;
+    height: 100%;
+    image-rendering: pixelated;
+    display: block;
+}
+
+/* Make source image of pixelated images disappear */
+.source-image {
+    position: absolute;
+    width: 0px;
+    height: 0px;
+    opacity: 0;
+    pointer-events: none;
+}
+
+/* Container for scolling text */
+.scroll-container {
+    background-color: var(--secondary-color);
+    color: var(--secondary-contrast-color);
+    overflow: hidden;
+}
+
+/* Animated inner content of scroll container */
+.scroll-track {
+    animation: scroll 20s linear infinite;
+    width: fit-content;
+    display: flex;
+    white-space: nowrap;
+    gap: 15rem;
+}
+.scroll-track.slow {
+    animation-duration: 60s !important;
+}
+
+/* Text styles within scroll path */
+.scroll-text {
+    position: relative;
+    top: 0;
+    left: 0;
+    font-family: var(--secondary-font-family);
+    font-size: 52.7vh;
+    line-height: 1;
+    user-select: none;
+}
+.scroll-text:hover {
+    text-decoration: underline overline;
+}
+
+/* Animation for scroll container */
+@keyframes scroll {
+    to {
+        transform: translate(calc(-50% - 7.5rem));
+    }
+}
+
+/* CUSTOM STYLES FOR THE WORK PAGE */
+.line-container {
+    background: var(--secondary-color);
+    color: var(--secondary-contrast-color);
+    cursor: crosshair;
+    font-family: var(--secondary-font-family);
+    position: relative;
+    overflow: hidden;
+    height: clamp(20rem, 50vh, 50vh) !important;
+}
+
+.interactive-section {
+    height: auto;
+    position: relative;
+    background: var(--secondary-color);
+    color: var(--secondary-contrast-color);
+    cursor: crosshair;
+    font-family: var(--secondary-font-family);
+    overflow: hidden;
+}
+
+.section-title {
+    font-family: monospace;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: var(--secondary-contrast-color);
+    margin: 0.5rem 0;
+}
+
+.section-divider {
+    width: 100%;
+    height: 2px;
+    background-color: var(--secondary-contrast-color);
+}
+
+.content-container {
+    display: flex;
+    height: auto;
+    margin-top: 0;
+}
+
+.image-display-area {
+    flex: 1;
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 1.5rem;
+    padding: 1rem 0;
+}
+
+.preview-image {
+    width: 100%;
+    height: 100%;
+    max-height: 15rem;
+    aspect-ratio: 1 / 1;
+    background: center/cover no-repeat;
+    border: 2px solid var(--secondary-contrast-color);
+    opacity: 0;
+    transition:
+        max-height 0.3s,
+        height 0.3s;
+}
+
+.boxes-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.bullet-box {
+    width: 100%;
+    flex: 1;
+    color: var(--secondary-contrast-color);
+    cursor: pointer;
+    text-align: right;
+    display: flex;
+    align-items: flex-end;
+    justify-content: flex-end;
+    position: relative;
+    transition: color 0.1s cubic-bezier(0.215, 0.61, 0.355, 1);
+    padding: 0;
+    margin: 0;
+    border: none;
+}
+
+.bullet-box + .bullet-box {
+    border-top: 1px solid var(--secondary-contrast-color);
+}
+
+.bullet-box::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    margin: 0;
+    padding: 0;
+    width: calc(100% + 1px);
+    height: 100%;
+    background-color: var(--secondary-contrast-color);
+    z-index: 0;
+    transform: scale3d(1, 0, 1);
+    transform-origin: center bottom;
+    transition: transform 0.15s cubic-bezier(0.215, 0.61, 0.355, 1) 0.15s;
+}
+
+.bullet-title {
+    font-size: 1.2rem;
+    font-weight: bold;
+    font-family: var(--secondary-font-family);
+    position: relative;
+    z-index: 1;
+    margin: 0;
+    padding: 0;
+}
+
+/* Desktop hover effects */
+.bullet-box:hover,
+.bullet-box.is-active {
+    color: var(--secondary-color);
+}
+
+.bullet-box:hover::before,
+.bullet-box.is-active::before {
+    transform: scale3d(1, 1, 1);
+    transform-origin: center top;
+    transition-delay: 0s;
+}
+
+/* Text selection styles */
+.section-title::selection {
+    background-color: var(--secondary-contrast-color);
+    color: var(--secondary-color);
+}
+
+.bullet-title::selection {
+    background-color: var(--secondary-color);
+    color: var(--secondary-contrast-color);
+}
+
+.resume-box-wrapper {
+    position: relative;
+    width: 100%;
+    box-sizing: border-box;
+    outline: 25px solid transparent;
+    height: clamp(15rem, 50vh, 50vh) !important;
+}
+
+.resume-box {
+    background-color: var(--secondary-color);
+    color: var(--secondary-contrast-color);
+    box-sizing: border-box;
+    font-family: var(--secondary-font-family);
+    font-size: clamp(3rem, 16vw, 18rem);
+    line-height: 1.2;
+    cursor: pointer;
+    height: 100%;
+}
+
+.resume-box:hover {
+    background-color: var(--tertiary-color);
+    color: var(--tertiary-contrast-color);
+    outline: 25px solid var(--tertiary-contrast-color);
+}
+
+.resume-box-text::selection {
+    background-color: var(--tertiary-contrast-color);
+    color: var(--tertiary-color);
+}
+
+/* Mobile responsive */
+@media (max-width: 768px) {
+    .link-box {
+        height: 30vh !important;
+    }
+    
+    .preview-image {
+        width: 100%;
+        height: auto;
+        aspect-ratio: 3 / 1; /* Maintains 3:1 aspect ratio */
+        max-height: none;
+    }
+
+    .content-container {
+        flex-direction: column;
+    }
+
+    .image-display-area {
+        width: 100%;
+        min-height: auto;
+        margin-right: 0;
+        margin-bottom: 1rem;
+    }
+
+    .section-title {
+        text-align: center;
+    }
+
+    .button-desktop {
+        display: none;
+    }
+}
+
+@media (min-width: 768px) {
+    .interactive-section {
+        display: flex;
+        flex-direction: column;
+        height: clamp(30rem, 50vh, 50vh);
+    }
+
+    .content-container {
+        flex: 1 1 0;
+        display: flex;
+        flex-direction: row;
+        min-height: 0;
+    }
+
+    .boxes-container {
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        min-height: 0;
+    }
+
+    .bullet-box {
+        min-height: 0;
+    }
+
+    .bullet-title {
+        font-size: 1.6rem;
+        line-height: 1;
+    }
+
+    .button-mobile {
+        display: none;
+    }
+}
+
+/* Container for scrolling text */
+.scroll-container-manual {
+    background-color: var(--secondary-color);
+    color: var(--secondary-contrast-color);
+    overflow: hidden;
+    width: 100%;
+    height: clamp(30rem, 40vh, 90vh);
+}
+
+.scroll-container-manual:hover {
+    background-color: var(--tertiary-color);
+    color: var(--tertiary-contrast-color);
+    outline: 25px solid var(--tertiary-contrast-color);
+}
+
+@media (max-height: 650px) {
+    .scroll-container-manual {
+        height: clamp(20rem, 90vh, 90vh);
+    }
+}
+
+@media (max-width: 400px) {
+    .scroll-section-title {
+        font-size: clamp(1rem, 2vw, 2rem) !important;
+    }
+    .vertical-item {
+        font-size: clamp(0.9rem, 1.5vw, 1.2rem) !important;
+    }
+}
+
+/* Animated inner content of scroll container */
+.scroll-track-manual {
+    display: flex;
+    height: 100%;
+    width: 400%;
+}
+
+/* Text styles within scroll path - this is the key container for centering */
+.scroll-text-manual {
+    position: relative;
+    z-index: 2;
+    font-family: var(--secondary-font-family);
+    line-height: 1;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    padding-left: clamp(0rem, 8vw, 10rem);
+    padding-right: clamp(0rem, 8vw, 10rem);
+}
+
+/* Content wrapper to group title and list together */
+.scroll-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+    gap: 1rem;
+}
+
+.scroll-section-title {
+    font-size: clamp(1.4rem, 5vw, 3rem);
+    font-weight: bold;
+    text-align: left;
+    width: 100%;
+}
+
+.scroll-section-title:hover {
+    text-decoration: underline overline;
+}
+
+/* Vertical list styling */
+.vertical-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+}
+
+/* Individual vertical items */
+.vertical-item {
+    font-size: clamp(1.2rem, 2.5vw, 2rem);
+    line-height: 1.4;
+    padding: 0.5rem 0;
+    position: relative;
+    text-align: justify;
+    text-align-last: justify;
+    text-justify: inter-word;
+}
+/* Styling for the link boxes and text */
+.contact-box {
+    background-color: var(--primary-contrast-color);
+    color: var(--primary-color);
+    box-sizing: border-box;
+    font-family: var(--secondary-font-family);
+    font-weight: bold;
+    font-size: clamp(4rem, 10vw, 11rem);
+    line-height: 1;
+    cursor: pointer;
+    height: clamp(15rem, 25vh, 25vh);
+}
+
+.contact-box:hover {
+    background-color: var(--tertiary-color);
+    color: var(--tertiary-contrast-color);
+    outline: 15px solid var(--tertiary-contrast-color);
+}
+
+.contact-box-text::selection {
+    background-color: var(--tertiary-contrast-color);
+    color: var(--tertiary-color);
+}
+
+.contact-box-title-subtext {
+    font-size: clamp(1.5rem, 5vw, 3rem);
+}
+
+.contact-box-subtext {
+    font-size: clamp(1rem, 1.8vw, 2rem);
+}
+
+.contact-box-subtext::selection,
+.contact-box-title-subtext::selection {
+    background-color: var(--tertiary-contrast-color);
+    color: var(--tertiary-color);
+}
+
+.location-box {
+    height: clamp(20rem, 30vh, 30vh) !important;
+}
+
+.resume-background {
+    background-color: var(--secondary-color);
+}
+
+/* Make all direct text children of .content-container justified and stretch lines */
+.interactive-section .content-container .justify-stretch {
+    display: block;
+    width: 100%;
+    text-align: justify;
+    letter-spacing: normal !important;
+    word-spacing: 0.2em;
+}
+
+/* Trick to force last line to justify */
+.interactive-section .content-container .justify-stretch::after {
+    content: '';
+    display: inline-block;
+    width: 100%;
+    height: 0;
+}
+
+.tracking-location {
+    letter-spacing: 0.15em;
+}
+
+.tracking-github {
+    letter-spacing: 0.25em;
+}
+
+.tracking-email {
+    letter-spacing: 0.45em;
+}
+
+.tracking-resume {
+    letter-spacing: 0.15em;
+}

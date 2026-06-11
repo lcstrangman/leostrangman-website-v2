@@ -1,0 +1,76 @@
+---
+interface Props {
+    name: string;
+    class?: string;
+    ariaLabel?: string;
+    width?: string;
+    height?: string;
+    viewBox?: string;
+}
+
+const { name, ariaLabel, class: propsClass, width, height, viewBox, ...rest } = Astro.props;
+
+const computedAriaLabel = ariaLabel ?? undefined;
+const computedArialHidden = computedAriaLabel ? 'false' : 'true';
+const computedFocusable = computedAriaLabel ? 'true' : 'false';
+
+const classes = ['c-icon', propsClass];
+
+const svgClassName = `svg-${name}`;
+const link = `/assets/images/sprite.svg#${name}`;
+---
+
+<span class:list={classes} {...rest}>
+    <svg
+        class={svgClassName}
+        aria-label={computedAriaLabel}
+        aria-hidden={computedArialHidden}
+        focusable={computedFocusable}
+        width={width}
+        height={height}
+        viewBox={viewBox}
+        preserveAspectRatio="xMidYMid meet"
+    >
+        <use href={link}></use>
+    </svg>
+</span>
+
+<style is:global>
+    /* ===================================================================
+       Component — Icon
+       =================================================================== */
+
+    .c-icon {
+        display: inline-block;
+        vertical-align: middle;
+    }
+
+    .c-icon svg {
+        --icon-height: calc(var(--icon-width, var(--_icon-width)) * (1 / (var(--icon-ratio))));
+
+        display: block;
+        width: var(--icon-width, var(--_icon-width));
+        height: var(--icon-height);
+        fill: currentColor;
+    }
+
+    /* Changed SCSS math.div to native CSS calc() */
+    .svg-logo {
+        --_icon-width: 32px;
+        --icon-ratio: calc(925 / 302); 
+    }
+
+    .svg-icon-amber-supply {
+        --_icon-width: 75px;
+        --icon-width: 75px;
+        --icon-height: 75px;
+        --icon-ratio: 1;
+    }
+
+    .svg-icon-green-supply {
+        --_icon-width: 75px;
+        --icon-width: 75px;
+        --icon-height: 75px;
+        --icon-ratio: 1;
+    }
+</style>

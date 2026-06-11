@@ -1,17 +1,88 @@
 ---
-
+import Layout from '../layouts/Layout.astro';
+import PixelatedImage from '@components/PixelatedImage/PixelatedImage.astro';
+import Icon from '@components/Icon/Icon.astro';
+import ScrollingFooter from '../components/ScrollingFooter/ScrollingFooter.astro';
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
-</html>
+<Layout title="Leo Strangman." theme="index" pageTitle="INDEX">
+    <!-- Hero Section -->
+    <div class="hero" id="parallax-hero" role="banner" aria-label="Hero Section">
+        <canvas class="hero-canvas" id="parallax-canvas" aria-hidden="true"></canvas>
+
+        <div class="access-background hidden" id="accessibility-background" aria-hidden="true"></div>
+        <button class="access-button glitchable hover-text" id="access-button" aria-label="Toggle Accessibility Mode" aria-pressed="false">Accessible Mode</button>
+
+        <div class="hero-container" id="hero-content-primary">
+            <div class="name-container" id="name-container">
+                <div class="name-background" id="name-background"></div>
+                <h1 class="name-text hover-text glitchable" id="name-text">Leo Strangman.</h1>
+            </div>
+            <div class="bottom-row">
+                <div class="icon-container" id="icon-container">
+                    <div class="icon-background" id="icon-background"></div>
+                    <div class="icon-background-invisible hover-text" id="icon-background-invisible"></div>
+                    <div class="svg-position hover-text" id="main-svg">
+                        <Icon name="icon-amber-supply" width="75" height="75" viewBox="0, 0, 75, 75" />
+                    </div>
+                    <div class="svg-position secondary removed hover-text" id="secondary-svg">
+                        <Icon name="icon-green-supply" width="75" height="75" viewBox="0, 0, 75, 75" />
+                    </div>
+                </div>
+                <div class="role-container" id="role-container">
+                    <div class="role-background" id="role-background"></div>
+                    <div class="role-background-invisible hover-text" id="role-background-invisible"></div>
+                    <h2 class="role-text glitchable hover-text" id="role-text">Developer</h2>
+                </div>
+            </div>
+        </div>
+
+        <div class="hero-content-accessible removed" id="hero-content-accessible">
+            <div class="name-container">
+                <h1 class="name-text-accessible hover-text glitchable">Leo Strangman.</h1>
+            </div>
+            <div class="bottom-row">
+                <div class="icon-container">
+                    <div class="svg-position secondary hover-text">
+                        <Icon name="icon-green-supply" width="75" height="75" viewBox="0, 0, 75, 75" />
+                    </div>
+                </div>
+                <div class="role-container">
+                    <h2 class="role-text-accessible glitchable hover-text">Developer</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="u:z-2 background-color u:relative">
+        <div class="link-box-wrapper">
+            <div class="link-box u:flex u:h-[50vh] u:w-full u:items-center u:justify-center u:text-center">
+                <a class="glitchable link-box-text hover-text u:tracking-wide" href="/projects">PROJECTS</a>
+            </div>
+            <div class="link-box u:mt-12 u:flex u:h-[50vh] u:w-full u:items-center u:justify-center u:text-center">
+                <a class="glitchable link-box-text tracking-work hover-text" href="/work">MY WORK</a>
+            </div>
+            <div class="link-box u:mt-12 u:flex u:h-[50vh] u:w-full u:items-center u:justify-center u:text-center">
+                <a class="glitchable link-box-text tracking-about hover-text" href="/about">ABOUT ME</a>
+            </div>
+            <div class="link-box u:mt-12 u:flex u:h-[50vh] u:w-full u:items-center u:justify-center u:text-center">
+                <a class="glitchable link-box-text tracking-contact hover-text" href="/contact">CONTACT</a>
+            </div>
+
+            <div class="u:mt-12 u:grid u:grid-cols-1 u:md:grid-cols-2 u:gap-gutter">
+                <PixelatedImage
+                    src={import('@images/scenery.jpg')}
+                    alt="Mountain Scenery"
+                    class="u:h-full u:w-full"
+                />
+                <PixelatedImage
+                    src={import('@images/leostrangman.jpg')}
+                    alt="Portrait photograph of Leo Strangman"
+                    class="u:h-full u:w-full"
+                />
+            </div>
+
+            <ScrollingFooter />
+        </div>
+    </div>
+</Layout>

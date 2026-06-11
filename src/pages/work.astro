@@ -1,0 +1,26 @@
+---
+import Layout from '../layouts/Layout.astro';
+import InteractiveSection from '../components/InteractiveSection/InteractiveSection.astro';
+import ResumeBox from '../components/ResumeBox/ResumeBox.astro';
+import ScrollingFooter from '../components/ScrollingFooter/ScrollingFooter.astro';
+import PageShell from '../components/PageShell/PageShell.astro';
+---
+
+<Layout title="Leo Strangman." theme="work" pageTitle="MY WORK">
+    <PageShell>
+        <InteractiveSection
+            title="MASSACHUSETTS GENERAL HOSPITAL"
+            dataPrefix="/work-"
+            bullets={[
+                'Front and back-end website development for the Neural Systems Group',
+                'Automated data analysis collected with biomedical research equipment',
+                'Supported design of a novel biomedical monitoring and brain imaging system',
+                'Aided in redesigning and fabricating housing and sensor components',
+            ]}
+            sectionIndex={0}
+        />
+
+        <ResumeBox mode="view" />
+        <ScrollingFooter />
+    </PageShell>
+</Layout>

@@ -1,0 +1,51 @@
+---
+import Layout from '../layouts/Layout.astro';
+import ContactLink from '../components/ContactLink/ContactLink.astro';
+import ScrollingFooter from '../components/ScrollingFooter/ScrollingFooter.astro';
+import PageShell from '../components/PageShell/PageShell.astro';
+---
+
+<Layout title="Leo Strangman." theme="contact" pageTitle="CONTACT">
+    <PageShell>
+        <div class="u:mt-12 u:grid u:grid-cols-1 u:gap-gutter">
+            <div class="contact-box location-box u:flex u:w-full u:flex-col u:items-center u:justify-center u:text-center">
+                <div class="glitchable contact-box-text tracking-location hover-text">Boston, MA</div>
+                <div class="glitchable contact-box-title-subtext hover-text u:tracking-wide">
+                    Open to In-Person/Remote Work
+                </div>
+            </div>
+        </div>
+
+        <div class="u:mt-12 u:grid u:grid-cols-1 u:md:grid-cols-2 u:gap-gutter">
+            <ContactLink
+                text="Email"
+                subtext="lcstrangman@gmail.com"
+                href="mailto:lcstrangman@gmail.com"
+                external
+                trackingClass="tracking-email"
+            />
+            <ContactLink
+                text="LinkedIn"
+                subtext="/in/leostrangman"
+                href="https://www.linkedin.com/in/leostrangman/"
+                external
+                trackingClass="tracking-work"
+            />
+            <ContactLink
+                text="GitHub"
+                subtext="/lcstrangman"
+                href="https://github.com/lcstrangman/"
+                external
+                trackingClass="tracking-github"
+            />
+            <ContactLink
+                text="Resume"
+                subtext="/resume"
+                href="/resume"
+                trackingClass="tracking-resume"
+            />
+        </div>
+
+        <ScrollingFooter />
+    </PageShell>
+</Layout>
